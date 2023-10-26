@@ -30,7 +30,7 @@
                 <manifest>
                 <addClasspath>true</addClasspath>
                 <classpathPrefix>libs/</classpathPrefix>
-                <mainClass>com.example.Main</mainClass>
+                <mainClass>com.soap.Main</mainClass>
                 </manifest>
             </archive>
             </configuration>
