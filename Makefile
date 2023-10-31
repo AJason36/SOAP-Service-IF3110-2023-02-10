@@ -22,10 +22,10 @@ create-db:
 	mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS $(DB_NAME)" 
 	exit
 
-migration:
+migrate:
 	mvn flyway:migrate -Dflyway.url=jdbc:mysql://localhost:3306/$(DB_NAME) -Dflyway.user=$(DB_USER) -Dflyway.password=$(DB_PASSWORD)
 
-migration-repair:
+migrate-repair:
 	mvn flyway:repair -Dflyway.url=jdbc:mysql://localhost:3306/$(DB_NAME) -Dflyway.user=$(DB_USER) -Dflyway.password=$(DB_PASSWORD)
 
 # Phony targets to prevent conflicts with filenames
