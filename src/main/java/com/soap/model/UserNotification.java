@@ -23,13 +23,42 @@ import lombok.Setter;
 @Entity
 @Table(name = "user_notification")
 public class UserNotification {
+    public UserNotification(User user, String message, Timestamp createdAt, NotificationStatus status) {
+        this.user = user;
+        this.message = message;
+        this.createdAt = createdAt;
+        this.status = status;
+    }
+
+    public UserNotification(String username, String message, Timestamp createdAt, NotificationStatus status) {
+        this.user = new User(username);
+        this.message = message;
+        this.createdAt = createdAt;
+        this.status = status;
+    }
+
+    public UserNotification(User user, String message, NotificationStatus status) {
+        this(user, message, new Timestamp(System.currentTimeMillis()), status);
+    }
+
+    public UserNotification(String username, String message, NotificationStatus status) {
+        this(username, message, new Timestamp(System.currentTimeMillis()), status);
+    }
+    
+    public UserNotification(User user, String message) {
+        this(user, message, NotificationStatus.UNREAD);
+    }
+
+    public UserNotification(String username, String message) {
+        this(username, message, NotificationStatus.UNREAD);
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notification_id")
     private int notificationId;  
 
-    @Column(name = "username")
-    private String username;
+    private User user;
 
     @Column(name = "message")
     private String message;

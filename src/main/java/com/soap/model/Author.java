@@ -13,9 +13,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Entity
-@Table(name = "book")
-public class Book {
+@Table(name = "author")
+public class Author {
     @Id
-    @Column(name = "book_id")
-    private int bookId;
+    @Column(name = "author_id")
+    private int authorId;
 }
