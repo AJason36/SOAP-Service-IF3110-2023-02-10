@@ -1,6 +1,7 @@
 # Visual Studio Code
 .vscode
 .env
+src/main/java/com/soap/util/hibernate.cfg.xml
 
 # Compiled class file
 target/
