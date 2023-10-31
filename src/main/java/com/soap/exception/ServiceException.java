@@ -9,4 +9,8 @@ public class ServiceException extends Exception{
         super(message);
         this.code = code;
     }
+
+    public ServiceException(String message) {
+        this(400, message);
+    }
 }
