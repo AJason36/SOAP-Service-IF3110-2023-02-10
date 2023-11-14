@@ -14,6 +14,4 @@ public class SubRequest {
     private String requestee; // refer to REST JS service username @PK
     private String requesterEmail;
     private Timestamp createdAt;
-
-
 }
