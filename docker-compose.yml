@@ -1,0 +1,25 @@
+version: '3.3'
+services:
+  soap:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: soap
+    env_file:
+      - .env
+    ports:
+      - '${APP_PORT:-9900}:${APP_PORT:-9900}'
+    volumes:
+      - .:/var/www/html
+    links:
+      - db
+  db:
+    image: mysql:latest
+    container_name: soap_db
+    env_file:
+      - .env
+    ports:
+      - '${DB_PORT:-9906}:${DB_PORT:-9906}'
+    volumes:
+      - ./db/mysql:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d
