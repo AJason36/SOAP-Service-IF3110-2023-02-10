@@ -16,8 +16,6 @@ clean:
 	mvn clean
 	rm -f target/soap_service-1.0.jar
 
-setup: create-db migration
-
 create-db:
 	mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS $(DB_NAME)" 
 	exit
