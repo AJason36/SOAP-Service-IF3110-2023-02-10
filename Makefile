@@ -17,14 +17,14 @@ clean:
 	rm -f target/soap_service-1.0.jar
 
 create-db:
-	mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS $(DB_NAME)" 
+	mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS $(MYSQL_DATABASE)" 
 	exit
 
 migrate:
-	mvn flyway:migrate -Dflyway.url=jdbc:mysql://localhost:3306/$(DB_NAME) -Dflyway.user=$(DB_USER) -Dflyway.password=$(DB_PASSWORD)
+	mvn flyway:migrate -Dflyway.url=jdbc:mysql://localhost:$(DB_PORT)/$(MYSQL_DATABASE) -Dflyway.user=$(MYSQL_USER) -Dflyway.password=$(MYSQL_PASSWORD)
 
 migrate-repair:
-	mvn flyway:repair -Dflyway.url=jdbc:mysql://localhost:3306/$(DB_NAME) -Dflyway.user=$(DB_USER) -Dflyway.password=$(DB_PASSWORD)
+	mvn flyway:repair -Dflyway.url=jdbc:mysql://localhost:$(DB_PORT)/$(MYSQL_DATABASE) -Dflyway.user=$(MYSQL_USER) -Dflyway.password=$(MYSQL_PASSWORD)
 
 # Phony targets to prevent conflicts with filenames
 .PHONY: all build run clean
