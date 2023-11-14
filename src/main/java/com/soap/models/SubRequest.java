@@ -10,11 +10,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class SubRequest {
-    private int requestId;
-    private String requester; // refer to PHP service username
+    private String requester; // refer to PHP service username @PK
+    private String requestee; // refer to REST JS service username @PK
     private String requesterEmail;
     private Timestamp createdAt;
-    private String requestee; // refer to REST JS service username
 
-    
+
 }

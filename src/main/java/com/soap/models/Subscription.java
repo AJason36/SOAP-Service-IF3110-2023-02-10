@@ -10,9 +10,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Subscription {
-    private int subscriptionId;
-    private String subscriber; // refer to PHP service username
-    private String curator;  // refer to REST JS service username
+    private String subscriber; // refer to PHP service username @PK
+    private String curator;  // refer to REST JS service username @PK
     private Timestamp approvedAt;
     private Boolean isActive;
     private Timestamp validUntil;
