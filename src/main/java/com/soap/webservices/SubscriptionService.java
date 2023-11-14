@@ -4,6 +4,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 import com.soap.models.Response;
+import com.soap.models.ResponseCode;
 import com.soap.models.SubRequest;
 import com.soap.models.Subscription;
 
@@ -11,16 +12,16 @@ import com.soap.models.Subscription;
 public class SubscriptionService {
     @WebMethod
     public Response<SubRequest> MakeRequest() {
-        return new Response<SubRequest>(Response.SUCCESS, "Success", null);
+        return new Response<SubRequest>(ResponseCode.SUCCESS, "Success", null);
     }
 
     @WebMethod
     public Response<Subscription> ApproveRequest() {
-        return new Response<Subscription>(Response.SUCCESS, "Success", null);
+        return new Response<Subscription>(ResponseCode.SUCCESS, "Success", null);
     }
 
     @WebMethod
     public Response<SubRequest> RejectRequest() {
-        return new Response<SubRequest>(Response.SUCCESS, "Success", null);
+        return new Response<SubRequest>(ResponseCode.SUCCESS, "Success", null);
     }
 }
