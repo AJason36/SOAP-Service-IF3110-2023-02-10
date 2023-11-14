@@ -2,6 +2,7 @@ package com.soap.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.soap.exceptions.DaoException;
@@ -10,7 +11,7 @@ import com.soap.util.DbUtils;
 
 public class SubscriptionDao {
 
-        private Connection conn = DbUtils.getConnection();
+    private Connection conn = DbUtils.getConnection();
 
     public void createSubscription(Subscription sub) throws DaoException {
         String sql = "INSERT INTO subscriptions (subscriber, curator, is_active, approved_at, valid_until) VALUES (?, ?, ?, ?, ?)";
@@ -39,7 +40,7 @@ public class SubscriptionDao {
         }
     }
 
-    public void findSubscription(Subscription sub) throws DaoException {
+    public Subscription[] findSubscription(Subscription sub) throws DaoException {
         String sql = "SELECT * FROM subscriptions WHERE ";
         Integer paramsCount = 0;
 
@@ -78,8 +79,21 @@ public class SubscriptionDao {
                 stmt.setBoolean(i, sub.getIsActive());
                 i++;
             }
-            
-            stmt.executeQuery();
+
+            ResultSet result = stmt.executeQuery();
+            Subscription[] subscriptions = new Subscription[result.getFetchSize()];
+            i = 0;
+            while (result.next()) {
+                subscriptions[i] = new Subscription(
+                    result.getString("subscriber"),
+                    result.getString("curator"),
+                    result.getTimestamp("approved_at"),
+                    result.getBoolean("is_active"),
+                    result.getTimestamp("valid_until")
+                );
+                i++;
+            }
+            return subscriptions;
         } catch (SQLException e) {
             System.out.println("Error finding subscription");
             throw new RuntimeException(e);

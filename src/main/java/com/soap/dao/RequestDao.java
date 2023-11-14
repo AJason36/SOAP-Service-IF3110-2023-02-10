@@ -2,6 +2,7 @@ package com.soap.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.soap.exceptions.DaoException;
@@ -38,7 +39,7 @@ public class RequestDao {
         }
     }
 
-    public void findRequest(SubRequest req) throws DaoException {
+    public SubRequest[] findRequest(SubRequest req) throws DaoException {
         String sql = "SELECT * FROM requests WHERE ";
         Integer paramsCount = 0;
 
@@ -66,7 +67,19 @@ public class RequestDao {
                 i++;
             }
             
-            stmt.executeQuery();
+            ResultSet result = stmt.executeQuery();
+            SubRequest[] requests = new SubRequest[result.getFetchSize()];
+            i = 0;
+            while (result.next()) {
+                requests[i] = new SubRequest(
+                    result.getString("requester"),
+                    result.getString("requestee"),
+                    result.getString("requester_email"),
+                    result.getTimestamp("created_at")
+                );
+                i++;
+            }
+            return requests;
         } catch (SQLException e) {
             System.out.println("Error finding request");
             throw new DaoException(e.getMessage());
