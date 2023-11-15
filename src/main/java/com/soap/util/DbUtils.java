@@ -42,4 +42,32 @@ public class DbUtils {
             throw new RuntimeException(e);
         }
     }   
+
+    public static void beginTransaction() {
+        try {
+            conn.setAutoCommit(false);
+        } catch (SQLException e) {
+            System.out.println("Error beginning transaction");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void commitTransaction() {
+        try {
+            conn.commit();
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            System.out.println("Error committing transaction");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void rollbackTransaction() {
+        try {
+            conn.rollback();
+        } catch (SQLException e) {
+            System.out.println("Error rolling back transaction");
+            throw new RuntimeException(e);
+        }
+    }
 }
