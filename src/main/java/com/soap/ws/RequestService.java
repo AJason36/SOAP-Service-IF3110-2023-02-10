@@ -1,5 +1,6 @@
 package com.soap.ws;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -14,12 +15,14 @@ import com.soap.models.SubRequest;
 import com.soap.models.Subscription;
 
 @WebService
+@HandlerChain(file = "handler-chain.xml")
 public class RequestService {
     private RequestController reqController = new RequestController();
 
     @WebMethod
     @WebResult(name = "Response")
     public Response<SubRequest> MakeRequest(
+        @WebParam(name = "ApiKey", header = true) Holder<String> apiKey,
         @WebParam(name = "RequestBy") String requestBy, 
         @WebParam(name = "To") String to, 
         @WebParam(name = "RequesterEmail") String requesterEmail

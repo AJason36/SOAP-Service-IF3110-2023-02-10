@@ -1,5 +1,6 @@
 package com.soap.ws;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -13,6 +14,7 @@ import com.soap.models.ResponseCode;
 import com.soap.models.Subscription;
 
 @WebService
+@HandlerChain(file = "handler-chain.xml")
 public class SubscriptionService {
 
     private SubscriptionController subController = new SubscriptionController();
