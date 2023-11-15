@@ -14,6 +14,11 @@ public class SubscriptionDao {
 
     private Connection conn = DbUtils.getConnection();
 
+    /**
+     * Create a subscription to database
+     * @param sub
+     * @throws DaoException
+     */
     public void createSubscription(Subscription sub) throws DaoException {
         String sql = "INSERT INTO subscriptions (subscriber, curator, is_active, approved_at, valid_until) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -29,6 +34,11 @@ public class SubscriptionDao {
         }
     }    
 
+    /**
+     * Delete a subscription from database
+     * @param sub Subscription to be deleted, only subscriber and curator are used
+     * @throws DaoException
+     */
     public void deleteSubscription(Subscription sub) throws DaoException {
         String sql = "DELETE FROM subscriptions WHERE subscriber = ? AND curator = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -41,6 +51,12 @@ public class SubscriptionDao {
         }
     }
 
+    /**
+     * Find subscriptions from database
+     * @param sub Subscription to be found, only subscriber, curator and is_active are used
+     * @return
+     * @throws DaoException
+     */
     public Subscription[] findSubscription(Subscription sub) throws DaoException {
         String sql = "SELECT * FROM subscriptions WHERE ";
         Integer paramsCount = 0;

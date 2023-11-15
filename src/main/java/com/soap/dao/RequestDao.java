@@ -14,6 +14,11 @@ public class RequestDao {
 
     private Connection conn = DbUtils.getConnection();
 
+    /**
+     * Create a request to database
+     * @param req 
+     * @throws DaoException
+     */
     public void createRequest(SubRequest req) throws DaoException {
         String sql = "INSERT INTO requests (requester, requestee, requester_email, created_at) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -28,6 +33,11 @@ public class RequestDao {
         }
     }    
 
+    /**
+     * Delete a request from database
+     * @param req Request to be deleted, only requester and requestee are used
+     * @throws DaoException
+     */
     public void deleteRequest(SubRequest req) throws DaoException {
         String sql = "DELETE FROM requests WHERE requester = ? AND requestee = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -40,6 +50,12 @@ public class RequestDao {
         }
     }
 
+    /**
+     * Find requests from database
+     * @param req Request to be found, only requester and requestee are used
+     * @return
+     * @throws DaoException
+     */
     public SubRequest[] findRequest(SubRequest req) throws DaoException {
         String sql = "SELECT * FROM requests WHERE ";
         Integer paramsCount = 0;
