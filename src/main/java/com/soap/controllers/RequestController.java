@@ -61,7 +61,8 @@ public class RequestController {
      */
     public Subscription approveRequest(String requester, String requestee) throws DaoException {
         SubRequest request = requestBuilder.setRequester(requester).setRequestee(requestee).create();
-        Subscription sub = subBuilder.setSubscriber(requester).setCurator(requestee).create();
+        Subscription sub = subBuilder.setSubscriber(requester).setCurator(requestee).setIsActive(true)
+                .setApprovedAt(DbUtils.getCurrentTimestamp()).setValidUntil(DbUtils.plusDays(DbUtils.getCurrentTimestamp(), 30)).create();
 
         try {
             DbUtils.beginTransaction();

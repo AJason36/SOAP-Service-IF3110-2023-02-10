@@ -3,16 +3,19 @@ package com.soap.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.soap.exceptions.DaoException;
 import com.soap.models.ResponseCode;
 import com.soap.models.Subscription;
+import com.soap.models.builders.SubscriptionBuilder;
 import com.soap.util.DbUtils;
 
 public class SubscriptionDao {
 
     private Connection conn = DbUtils.getConnection();
+    private SubscriptionBuilder subBuilder = new SubscriptionBuilder();
 
     /**
      * Create a subscription to database
@@ -28,7 +31,7 @@ public class SubscriptionDao {
             stmt.setTimestamp(4, DbUtils.gregorianXMLToTimestamp(sub.getApprovedAt()));
             stmt.setTimestamp(5, DbUtils.gregorianXMLToTimestamp(sub.getValidUntil()));
             stmt.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Error creating subscription");
             throw new DaoException(e.getMessage(), ResponseCode.SERVER_ERROR);
         }
@@ -45,7 +48,7 @@ public class SubscriptionDao {
             stmt.setString(1, sub.getSubscriber());
             stmt.setString(2, sub.getCurator());
             stmt.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Error deleting subscription");
             throw new DaoException(e.getMessage(), ResponseCode.SERVER_ERROR);
         }
@@ -98,20 +101,21 @@ public class SubscriptionDao {
             }
 
             ResultSet result = stmt.executeQuery();
-            Subscription[] subscriptions = new Subscription[result.getFetchSize()];
+            List<Subscription> subscriptions = new ArrayList<Subscription>();
             i = 0;
             while (result.next()) {
-                subscriptions[i] = new Subscription(
-                    result.getString("subscriber"),
-                    result.getString("curator"),
-                    DbUtils.timestampToGregorianXML(result.getTimestamp("approved_at")),
-                    result.getBoolean("is_active"),
-                    DbUtils.timestampToGregorianXML(result.getTimestamp("valid_until"))
+                subscriptions.add(
+                    subBuilder.setSubscriber(result.getString("subscriber"))
+                        .setCurator(result.getString("curator"))
+                        .setIsActive(result.getBoolean("is_active"))
+                        .setApprovedAt(result.getTimestamp("approved_at"))
+                        .setValidUntil(result.getTimestamp("valid_until"))
+                        .create()
                 );
                 i++;
             }
-            return subscriptions;
-        } catch (SQLException e) {
+            return subscriptions.toArray(new Subscription[subscriptions.size()]);
+        } catch (Exception e) {
             System.out.println("Error finding subscription");
             throw new DaoException(sql, ResponseCode.SERVER_ERROR);
         }

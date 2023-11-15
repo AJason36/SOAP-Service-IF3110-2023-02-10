@@ -52,7 +52,7 @@ public class RequestService {
             Subscription createdSubscription = reqController.approveRequest(requestBy, to);
             
             // Make response
-            String message = "Request created successfully";
+            String message = "Request approved successfully";
             Response<Subscription> response = new Response<Subscription>(
                 ResponseCode.SUCCESS, message, createdSubscription
             );

@@ -4,15 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.soap.exceptions.DaoException;
 import com.soap.models.ResponseCode;
 import com.soap.models.SubRequest;
+import com.soap.models.builders.SubRequestBuilder;
 import com.soap.util.DbUtils;
 
 public class RequestDao {
 
     private Connection conn = DbUtils.getConnection();
+    private SubRequestBuilder reqBuilder = new SubRequestBuilder();
 
     /**
      * Create a request to database
@@ -71,7 +75,7 @@ public class RequestDao {
                 sql += " AND ";
             }
             sql += "requestee = ?";
-        } 
+        }
 
         int i = 1;
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -86,18 +90,18 @@ public class RequestDao {
             }
             
             ResultSet result = stmt.executeQuery();
-            SubRequest[] requests = new SubRequest[result.getFetchSize()];
-            i = 0;
+            List<SubRequest> requests = new ArrayList<SubRequest>();
             while (result.next()) {
-                requests[i] = new SubRequest(
-                    result.getString("requester"),
-                    result.getString("requestee"),
-                    result.getString("requester_email"),
-                    DbUtils.timestampToGregorianXML(result.getTimestamp("created_at"))
-                );
-                i++;
+                SubRequest request = reqBuilder
+                    .setRequester(result.getString("requester"))
+                    .setRequestee(result.getString("requestee"))
+                    .setRequesterEmail(result.getString("requester_email"))
+                    .setCreatedAt(result.getTimestamp("created_at"))
+                    .create();
+                requests.add(request);
             }
-            return requests;
+            
+            return requests.toArray(new SubRequest[requests.size()]);
         } catch (SQLException e) {
             System.out.println("Error finding request");
             throw new DaoException(e.getMessage(), ResponseCode.SERVER_ERROR);

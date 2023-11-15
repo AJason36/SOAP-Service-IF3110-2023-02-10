@@ -103,4 +103,8 @@ public class DbUtils {
         }
     }
 
+    public static Timestamp plusDays(Timestamp timestamp, int days) {
+        return new Timestamp(timestamp.getTime() + days * 24 * 60 * 60 * 1000);
+    }
+
 }
