@@ -1,15 +1,21 @@
 package com.soap.controllers;
 
 import com.soap.dao.SubscriptionDao;
+import com.soap.exceptions.DaoException;
 import com.soap.models.Subscription;
+import com.soap.models.builders.SubscriptionBuilder;
 
 public class SubscriptionController {
     private SubscriptionDao dao = new SubscriptionDao();
+    private SubscriptionBuilder builder = new SubscriptionBuilder();
 
-    public Subscription[] getSubscriptionsOf(String username) {
-        // Subscription
+    public Subscription[] getSubscriptionsOf(String username) throws DaoException {
+        Subscription args = builder.setSubscriber(username).create();
 
-        // return dao.findSubscription(username);
-        return null;
+        try {
+            return dao.findSubscription(args);
+        } catch (DaoException e) {
+            throw e;
+        }
     }
 }
