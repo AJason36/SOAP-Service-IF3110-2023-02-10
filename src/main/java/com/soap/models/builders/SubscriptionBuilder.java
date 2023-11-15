@@ -2,14 +2,17 @@ package com.soap.models.builders;
 
 import java.sql.Timestamp;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import com.soap.models.Subscription;
+import com.soap.util.DbUtils;
 
 public class SubscriptionBuilder {
     private String subscriber; // refer to PHP service username @PK
     private String curator;  // refer to REST JS service username @PK
-    private Timestamp approvedAt;
+    private XMLGregorianCalendar approvedAt;
     private Boolean isActive;
-    private Timestamp validUntil;
+    private XMLGregorianCalendar validUntil;
 
     public SubscriptionBuilder setSubscriber(String subscriber) {
         this.subscriber = subscriber;
@@ -27,12 +30,12 @@ public class SubscriptionBuilder {
     }
 
     public SubscriptionBuilder setApprovedAt(Timestamp approvedAt) {
-        this.approvedAt = approvedAt;
+        this.approvedAt = DbUtils.timestampToGregorianXML(approvedAt);
         return this;
     }
 
     public SubscriptionBuilder setValidUntil(Timestamp validUntil) {
-        this.validUntil = validUntil;
+        this.validUntil = DbUtils.timestampToGregorianXML(validUntil);
         return this;
     }
 
@@ -40,8 +43,8 @@ public class SubscriptionBuilder {
         this.subscriber = subscriber;
         this.curator = curator;
         this.isActive = isActive;
-        this.approvedAt = approvedAt;
-        this.validUntil = validUntil;
+        this.approvedAt = DbUtils.timestampToGregorianXML(approvedAt);
+        this.validUntil = DbUtils.timestampToGregorianXML(validUntil);
         return this;
     }
 

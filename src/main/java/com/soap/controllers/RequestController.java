@@ -26,7 +26,7 @@ public class RequestController {
      */
     public SubRequest makeRequest(String requester, String requestee, String requesterEmail) throws DaoException {
         SubRequest request = requestBuilder.setRequester(requester).setRequestee(requestee)
-                .setRequesterEmail(requesterEmail).create();
+                .setRequesterEmail(requesterEmail).setCreatedAt(DbUtils.getCurrentTimestamp()).create();
 
         try {
             requestDao.createRequest(request);

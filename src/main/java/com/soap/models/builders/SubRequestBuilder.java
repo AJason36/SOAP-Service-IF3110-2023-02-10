@@ -2,13 +2,16 @@ package com.soap.models.builders;
 
 import java.sql.Timestamp;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import com.soap.models.SubRequest;
+import com.soap.util.DbUtils;
 
 public class SubRequestBuilder {
     private String requester; // refer to PHP service username @PK
     private String requestee; // refer to REST JS service username @PK
     private String requesterEmail;
-    private Timestamp createdAt;
+    private XMLGregorianCalendar createdAt;
 
     public SubRequestBuilder setRequester(String requester) {
         this.requester = requester;
@@ -26,7 +29,7 @@ public class SubRequestBuilder {
     }
 
     public SubRequestBuilder setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
+        this.createdAt = DbUtils.timestampToGregorianXML(createdAt);;
         return this;
     }
 
@@ -34,7 +37,7 @@ public class SubRequestBuilder {
         this.requester = requester;
         this.requestee = requestee;
         this.requesterEmail = requesterEmail;
-        this.createdAt = createdAt;
+        this.createdAt = DbUtils.timestampToGregorianXML(createdAt);
         return this;
     }
 

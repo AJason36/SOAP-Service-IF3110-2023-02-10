@@ -25,8 +25,8 @@ public class SubscriptionDao {
             stmt.setString(1, sub.getSubscriber());
             stmt.setString(2, sub.getCurator());
             stmt.setBoolean(3, sub.getIsActive());
-            stmt.setTimestamp(4, sub.getApprovedAt());
-            stmt.setTimestamp(5, sub.getValidUntil());
+            stmt.setTimestamp(4, DbUtils.gregorianXMLToTimestamp(sub.getApprovedAt()));
+            stmt.setTimestamp(5, DbUtils.gregorianXMLToTimestamp(sub.getValidUntil()));
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error creating subscription");
@@ -104,9 +104,9 @@ public class SubscriptionDao {
                 subscriptions[i] = new Subscription(
                     result.getString("subscriber"),
                     result.getString("curator"),
-                    result.getTimestamp("approved_at"),
+                    DbUtils.timestampToGregorianXML(result.getTimestamp("approved_at")),
                     result.getBoolean("is_active"),
-                    result.getTimestamp("valid_until")
+                    DbUtils.timestampToGregorianXML(result.getTimestamp("valid_until"))
                 );
                 i++;
             }

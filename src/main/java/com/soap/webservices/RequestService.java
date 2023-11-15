@@ -1,6 +1,8 @@
 package com.soap.webservices;
 
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebResult;
 import javax.jws.WebService;
 
 import com.soap.controllers.RequestController;
@@ -15,7 +17,12 @@ public class RequestService {
     private RequestController reqController = new RequestController();
 
     @WebMethod
-    public Response<SubRequest> MakeRequest(String requestBy, String to, String requesterEmail) {
+    @WebResult(name = "Response")
+    public Response<SubRequest> MakeRequest(
+        @WebParam(name = "RequestBy") String requestBy, 
+        @WebParam(name = "To") String to, 
+        @WebParam(name = "RequesterEmail") String requesterEmail
+    ) {
         try {
             // Make request
             SubRequest request = reqController.makeRequest(requestBy, to, requesterEmail);
@@ -26,7 +33,6 @@ public class RequestService {
                 ResponseCode.SUCCESS, message, request
             );
             
-            // Return response
             return response;
         } catch (DaoException e) {
             return new Response<SubRequest>(
@@ -36,7 +42,11 @@ public class RequestService {
     }
 
     @WebMethod
-    public Response<Subscription> ApproveRequest(String requestBy, String to) {
+    @WebResult(name = "Response")
+    public Response<Subscription> ApproveRequest(
+        @WebParam(name = "RequestBy") String requestBy,
+        @WebParam(name = "To") String to
+    ) {
         try {
             // Approve request
             Subscription createdSubscription = reqController.approveRequest(requestBy, to);
@@ -57,7 +67,11 @@ public class RequestService {
     }
 
     @WebMethod
-    public Response<SubRequest> RejectRequest(String requestBy, String to) {
+    @WebResult(name = "Response")
+    public Response<SubRequest> RejectRequest(
+        @WebParam(name = "RequestBy") String requestBy,
+        @WebParam(name = "To") String to
+    ) {
         try {
             // Reject request
             SubRequest rejectedRequest = reqController.rejectRequest(requestBy, to);
@@ -78,7 +92,9 @@ public class RequestService {
     }
 
     @WebMethod
-    public Response<SubRequest[]> GetRequestsOf(String requestee) {
+    public Response<SubRequest[]> GetRequestsOf(
+        @WebParam(name = "Requestee") String requestee
+    ) {
         try {
             // Get requests
             SubRequest[] requests = reqController.getRequestsOf(requestee);

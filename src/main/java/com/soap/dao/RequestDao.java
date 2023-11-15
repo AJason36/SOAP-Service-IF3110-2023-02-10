@@ -25,7 +25,8 @@ public class RequestDao {
             stmt.setString(1, req.getRequester());
             stmt.setString(2, req.getRequestee());
             stmt.setString(3, req.getRequesterEmail());
-            stmt.setTimestamp(4, req.getCreatedAt());
+            
+            stmt.setTimestamp(4, DbUtils.gregorianXMLToTimestamp(req.getCreatedAt()));
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error creating request");
@@ -92,7 +93,7 @@ public class RequestDao {
                     result.getString("requester"),
                     result.getString("requestee"),
                     result.getString("requester_email"),
-                    result.getTimestamp("created_at")
+                    DbUtils.timestampToGregorianXML(result.getTimestamp("created_at"))
                 );
                 i++;
             }

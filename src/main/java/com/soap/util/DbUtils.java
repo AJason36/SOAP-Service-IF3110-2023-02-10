@@ -3,6 +3,10 @@ package com.soap.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.GregorianCalendar;
+
+import javax.xml.datatype.XMLGregorianCalendar;
 
 public class DbUtils {
     private static Connection conn = createConnection();
@@ -73,4 +77,30 @@ public class DbUtils {
             throw new RuntimeException(e);
         }
     }
+
+    public static Timestamp getCurrentTimestamp() {
+        return new Timestamp(System.currentTimeMillis());
+    }
+
+    public static Timestamp gregorianXMLToTimestamp(XMLGregorianCalendar calendar) {
+        return new Timestamp(calendar.toGregorianCalendar().getTimeInMillis());
+    }
+
+    public static XMLGregorianCalendar timestampToGregorianXML(Timestamp timestamp) {
+        try {
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(timestamp);
+
+            int miliseconds = timestamp.getNanos() / 1000000;
+            XMLGregorianCalendar xmlCalendar = javax.xml.datatype.DatatypeFactory.newInstance()
+                    .newXMLGregorianCalendar(calendar);
+
+            xmlCalendar.setMillisecond(miliseconds);
+            return xmlCalendar;
+        } catch (Exception e) {
+            System.out.println("Error converting timestamp to XMLGregorianCalendar");
+            throw new RuntimeException(e);
+        }
+    }
+
 }

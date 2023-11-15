@@ -1,6 +1,8 @@
 package com.soap.webservices;
 
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebResult;
 import javax.jws.WebService;
 
 import com.soap.controllers.SubscriptionController;
@@ -15,7 +17,10 @@ public class SubscriptionService {
     private SubscriptionController subController = new SubscriptionController();
 
     @WebMethod
-    public Response<Subscription[]> GetSubscriptionOf(String username) {
+    @WebResult(name = "Response")
+    public Response<Subscription[]> GetSubscriptionOf(
+        @WebParam(name = "Username") String username
+    ) {
         try {
             // Get subscriptions
             Subscription[] subscriptions = subController.getSubscriptionsOf(username);
