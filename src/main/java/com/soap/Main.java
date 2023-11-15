@@ -3,8 +3,8 @@ package com.soap;
 import javax.xml.ws.Endpoint;
 
 import com.soap.util.DbUtils;
-import com.soap.webservices.RequestService;
-import com.soap.webservices.SubscriptionService;
+import com.soap.ws.RequestService;
+import com.soap.ws.SubscriptionService;
 
 public class Main {
     public static void main(String[] args) {

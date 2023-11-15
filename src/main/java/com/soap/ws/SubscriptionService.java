@@ -1,9 +1,10 @@
-package com.soap.webservices;
+package com.soap.ws;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.xml.ws.Holder;
 
 import com.soap.controllers.SubscriptionController;
 import com.soap.exceptions.DaoException;
@@ -19,6 +20,7 @@ public class SubscriptionService {
     @WebMethod
     @WebResult(name = "Response")
     public Response<Subscription[]> GetSubscriptionOf(
+        @WebParam(name = "ApiKey", header = true) Holder<String> apiKey,
         @WebParam(name = "Username") String username
     ) {
         try {

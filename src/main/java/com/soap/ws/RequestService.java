@@ -1,9 +1,10 @@
-package com.soap.webservices;
+package com.soap.ws;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.xml.ws.Holder;
 
 import com.soap.controllers.RequestController;
 import com.soap.exceptions.DaoException;
@@ -44,6 +45,7 @@ public class RequestService {
     @WebMethod
     @WebResult(name = "Response")
     public Response<Subscription> ApproveRequest(
+        @WebParam(name = "ApiKey", header = true) Holder<String> apiKey,
         @WebParam(name = "RequestBy") String requestBy,
         @WebParam(name = "To") String to
     ) {
@@ -69,6 +71,7 @@ public class RequestService {
     @WebMethod
     @WebResult(name = "Response")
     public Response<SubRequest> RejectRequest(
+        @WebParam(name = "ApiKey", header = true) Holder<String> apiKey,
         @WebParam(name = "RequestBy") String requestBy,
         @WebParam(name = "To") String to
     ) {
@@ -93,6 +96,7 @@ public class RequestService {
 
     @WebMethod
     public Response<SubRequest[]> GetRequestsOf(
+        @WebParam(name = "ApiKey", header = true) Holder<String> apiKey,
         @WebParam(name = "Requestee") String requestee
     ) {
         try {
