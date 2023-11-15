@@ -1,13 +1,13 @@
-# Stage 1: Build the application using Maven
-FROM maven:3.6.3-jdk-8 AS build
-WORKDIR /usr/src/app
-COPY . .
-RUN mvn clean package
+FROM maven:3.6.3-amazoncorretto-8 AS build
 
-# Stage 2: Use a smaller base image and copy the JAR file
-FROM openjdk:8-jre-slim
+COPY . /usr/src/app
 WORKDIR /usr/src/app
-COPY --from=build /usr/src/app/target .
 
-# Set the entry point for the container
-ENTRYPOINT ["java", "-jar", "target/soap_service-1.0.jar"]
+RUN --mount=type=cache,target=/root/.m2 mvn clean install assembly:assembly
+
+FROM amazoncorretto:8
+COPY --from=build /usr/src/app/target/ .
+WORKDIR /usr/src/app
+
+EXPOSE 8080
+CMD java -cp soap_service-1.0.jar com.soap.Main
