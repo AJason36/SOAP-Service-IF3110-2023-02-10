@@ -81,13 +81,15 @@ public class RequestController {
      * Reject a request
      * @param requester Who requests the subscription
      * @param requestee Who is requested for subscription
+     * @return rejected request
      * @throws DaoException
      */
-    public void rejectRequest(String requester, String requestee) throws DaoException {
+    public SubRequest rejectRequest(String requester, String requestee) throws DaoException {
         SubRequest request = requestBuilder.setRequester(requester).setRequestee(requestee).create();
 
         try {
             requestDao.deleteRequest(request);
+            return request;
         } catch (DaoException e) {
             throw e;
         }
