@@ -11,7 +11,7 @@ import com.soap.models.Subscription;
 @WebService
 public class RequestService {
     @WebMethod
-    public Response<SubRequest> MakeRequest(String requestBy, String to) {
+    public Response<SubRequest> MakeRequest(String requestBy, String to, String requesterEmail) {
         return new Response<SubRequest>(ResponseCode.SUCCESS, "Success", null);
     }
 
@@ -26,7 +26,7 @@ public class RequestService {
     }
 
     @WebMethod
-    public Response<SubRequest[]> GetRequests(String requestee) {
+    public Response<SubRequest[]> GetRequestsOf(String requestee) {
         return new Response<SubRequest[]>(ResponseCode.SUCCESS, "Success", null);
     }
 }

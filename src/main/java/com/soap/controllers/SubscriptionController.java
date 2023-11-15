@@ -9,6 +9,12 @@ public class SubscriptionController {
     private SubscriptionDao dao = new SubscriptionDao();
     private SubscriptionBuilder builder = new SubscriptionBuilder();
 
+    /**
+     * Get subscriptions of a user
+     * @param username
+     * @return subscriptions of a user
+     * @throws DaoException
+     */
     public Subscription[] getSubscriptionsOf(String username) throws DaoException {
         Subscription args = builder.setSubscriber(username).create();
 
