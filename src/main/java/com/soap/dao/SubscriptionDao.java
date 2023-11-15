@@ -20,7 +20,7 @@ public class SubscriptionDao {
      * @throws DaoException
      */
     public void createSubscription(Subscription sub) throws DaoException {
-        String sql = "INSERT INTO subscriptions (subscriber, curator, is_active, approved_at, valid_until) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO subscription (subscriber, curator, is_active, approved_at, valid_until) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, sub.getSubscriber());
             stmt.setString(2, sub.getCurator());
@@ -40,7 +40,7 @@ public class SubscriptionDao {
      * @throws DaoException
      */
     public void deleteSubscription(Subscription sub) throws DaoException {
-        String sql = "DELETE FROM subscriptions WHERE subscriber = ? AND curator = ?";
+        String sql = "DELETE FROM subscription WHERE subscriber = ? AND curator = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, sub.getSubscriber());
             stmt.setString(2, sub.getCurator());
@@ -58,7 +58,7 @@ public class SubscriptionDao {
      * @throws DaoException
      */
     public Subscription[] findSubscription(Subscription sub) throws DaoException {
-        String sql = "SELECT * FROM subscriptions WHERE ";
+        String sql = "SELECT * FROM subscription WHERE ";
         Integer paramsCount = 0;
 
         if (sub.getSubscriber() != null) {

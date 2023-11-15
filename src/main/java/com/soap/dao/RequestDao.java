@@ -20,7 +20,7 @@ public class RequestDao {
      * @throws DaoException
      */
     public void createRequest(SubRequest req) throws DaoException {
-        String sql = "INSERT INTO requests (requester, requestee, requester_email, created_at) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO sub_request (requester, requestee, requester_email, created_at) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, req.getRequester());
             stmt.setString(2, req.getRequestee());
@@ -39,7 +39,7 @@ public class RequestDao {
      * @throws DaoException
      */
     public void deleteRequest(SubRequest req) throws DaoException {
-        String sql = "DELETE FROM requests WHERE requester = ? AND requestee = ?";
+        String sql = "DELETE FROM sub_request WHERE requester = ? AND requestee = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, req.getRequester());
             stmt.setString(2, req.getRequestee());
@@ -57,7 +57,7 @@ public class RequestDao {
      * @throws DaoException
      */
     public SubRequest[] findRequest(SubRequest req) throws DaoException {
-        String sql = "SELECT * FROM requests WHERE ";
+        String sql = "SELECT * FROM sub_request WHERE ";
         Integer paramsCount = 0;
 
         if (req.getRequester() != null) {
