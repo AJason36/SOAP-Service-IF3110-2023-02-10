@@ -1,6 +1,8 @@
-package com.soap.models;
+package com.soap.models.builders;
 
 import java.sql.Timestamp;
+
+import com.soap.models.Subscription;
 
 public class SubscriptionBuilder {
     private String subscriber; // refer to PHP service username @PK
