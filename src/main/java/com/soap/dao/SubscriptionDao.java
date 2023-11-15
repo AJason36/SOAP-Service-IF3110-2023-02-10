@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.soap.exceptions.DaoException;
+import com.soap.models.ResponseCode;
 import com.soap.models.Subscription;
 import com.soap.util.DbUtils;
 
@@ -24,7 +25,7 @@ public class SubscriptionDao {
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error creating subscription");
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e.getMessage(), ResponseCode.SERVER_ERROR);
         }
     }    
 
@@ -36,7 +37,7 @@ public class SubscriptionDao {
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error deleting subscription");
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e.getMessage(), ResponseCode.SERVER_ERROR);
         }
     }
 
@@ -96,7 +97,7 @@ public class SubscriptionDao {
             return subscriptions;
         } catch (SQLException e) {
             System.out.println("Error finding subscription");
-            throw new RuntimeException(e);
+            throw new DaoException(sql, ResponseCode.SERVER_ERROR);
         }
     }
 }

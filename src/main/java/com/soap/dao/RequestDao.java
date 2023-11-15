@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.soap.exceptions.DaoException;
+import com.soap.models.ResponseCode;
 import com.soap.models.SubRequest;
 import com.soap.util.DbUtils;
 
@@ -23,7 +24,7 @@ public class RequestDao {
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error creating request");
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e.getMessage(), ResponseCode.SERVER_ERROR);
         }
     }    
 
@@ -35,7 +36,7 @@ public class RequestDao {
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error deleting request");
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e.getMessage(), ResponseCode.SERVER_ERROR);
         }
     }
 
@@ -82,7 +83,7 @@ public class RequestDao {
             return requests;
         } catch (SQLException e) {
             System.out.println("Error finding request");
-            throw new DaoException(e.getMessage());
+            throw new DaoException(e.getMessage(), ResponseCode.SERVER_ERROR);
         }
     }
 }
