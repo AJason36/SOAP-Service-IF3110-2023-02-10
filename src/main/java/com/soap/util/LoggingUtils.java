@@ -12,7 +12,7 @@ public class LoggingUtils {
         try {
             dao.createLog(log);
         } catch (DaoException e) {
-            System.out.println("Error creating log");
+            System.out.println(e.getCode() + ": " + e.getMessage());
         }
     }
 }

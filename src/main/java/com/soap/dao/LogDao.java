@@ -11,7 +11,7 @@ public class LogDao {
     private Connection conn = DbUtils.getConnection();
 
     public void createLog(Log log) throws DaoException {
-        String sql = "INSERT INTO logs (description, ip_address, endpoint) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO request_log (description, ip_address, endpoint) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, log.getDescription());
             stmt.setString(2, log.getIpAddress());

@@ -31,6 +31,7 @@ public class DbUtils {
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setServerName(System.getenv("DB_HOST"));
         dataSource.setPort(Integer.parseInt(System.getenv("DB_PORT")));
+        dataSource.setDatabaseName(System.getenv("MYSQL_DATABASE"));
         dataSource.setUser(System.getenv("MYSQL_USER"));
         dataSource.setPassword(System.getenv("MYSQL_PASSWORD"));
 
