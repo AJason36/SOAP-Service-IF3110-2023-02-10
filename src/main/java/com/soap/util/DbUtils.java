@@ -1,12 +1,13 @@
 package com.soap.util;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.GregorianCalendar;
 
 import javax.xml.datatype.XMLGregorianCalendar;
+
+import com.mysql.cj.jdbc.MysqlDataSource;
 
 public class DbUtils {
     private static Connection conn = createConnection();
@@ -27,12 +28,14 @@ public class DbUtils {
             throw new RuntimeException(e);
         }
 
-        String url = System.getenv("DATABASE_URL");
-        String user = System.getenv("MYSQL_USER");
-        String password = System.getenv("MYSQL_PASSWORD");
+        MysqlDataSource dataSource = new MysqlDataSource();
+        dataSource.setServerName(System.getenv("DB_HOST"));
+        dataSource.setPort(Integer.parseInt(System.getenv("DB_PORT")));
+        dataSource.setUser(System.getenv("MYSQL_USER"));
+        dataSource.setPassword(System.getenv("MYSQL_PASSWORD"));
 
         try {
-            return DriverManager.getConnection(url, user, password);
+            return dataSource.getConnection();
         } catch (SQLException e) {
             System.out.println("Error creating connection");
             throw new RuntimeException(e);
