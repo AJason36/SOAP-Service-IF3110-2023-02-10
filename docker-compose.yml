@@ -1,20 +1,20 @@
 version: '3.3'
 services:
-  soap_service:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: soap_service
-    env_file:
-      - .env
-    ports:
-      - '${APP_PORT:-8080}:${APP_PORT:-8080}'
-    volumes:
-      - .:/var/www/html
-    links:
-      - db
-    depends_on:
-      - db
+  # soap_service:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: soap_service
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '8080:8080'
+  #   volumes:
+  #     - .:/var/www/html
+  #   links:
+  #     - db
+  #   depends_on:
+  #     - db
   db:
     image: mysql:latest
     container_name: soap_db

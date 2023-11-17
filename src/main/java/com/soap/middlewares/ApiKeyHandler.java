@@ -1,6 +1,7 @@
 package com.soap.middlewares;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,8 +48,18 @@ public class ApiKeyHandler implements SOAPHandler<SOAPMessageContext>{
 
         String receivedApiKey = extractApiKeyFromHeader(context);
         if (receivedApiKey == null) {
-            SOAPFaultException soapFaultException = generateSoapFaultException("API key is missing");
-            throw soapFaultException;
+            // Try to get api key from HTTP header
+            Map<String, Object> httpHeaders = (Map<String, Object>) context.get(MessageContext.HTTP_REQUEST_HEADERS);
+            LinkedList<String> apiKeys = (LinkedList<String>) httpHeaders.get("ApiKey");
+            if (apiKeys != null && apiKeys.size() > 0) {
+                receivedApiKey = apiKeys.get(0);
+            }
+            System.out.println("receivedApiKey: " + receivedApiKey);
+
+            if (receivedApiKey == null) {
+                SOAPFaultException soapFaultException = generateSoapFaultException("API key is missing");
+                throw soapFaultException;
+            }
         }
         
         if (!isValidApiKey(receivedApiKey)) {
